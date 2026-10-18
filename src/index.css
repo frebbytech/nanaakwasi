@@ -1,7 +1,17 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap");
 @import "tailwindcss";
 
+/* Dark is the default theme; light is applied via [data-theme="light"].
+   The attribute is set before first paint by an inline script in index.html. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+@custom-variant light (&:where([data-theme="light"], [data-theme="light"] *));
+
+/* ------------------------------------------------------------------ */
+/* Design tokens                                                       */
+/* ------------------------------------------------------------------ */
+
 @theme {
+  /* Brand palette (kept: navy "secondary" + cyan "primary").
+     Semantic tokens below are what new components should use. */
   --color-primary-100: #9decf0;
   --color-primary-200: #8de9ee;
   --color-primary-300: #7de6eb;
@@ -21,30 +31,101 @@
   --color-secondary-700: #03102a;
   --color-secondary-800: #030e24;
   --color-secondary-900: #020c1f;
+
+  /* Typography */
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-display: "Raleway", "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  --text-display: clamp(2.25rem, 1.55rem + 2.8vw, 3.5rem);
+  --text-display--line-height: 1.08;
+  --text-display--letter-spacing: -0.02em;
+  --text-title: clamp(1.75rem, 1.4rem + 1.4vw, 2.25rem);
+  --text-title--line-height: 1.15;
+  --text-title--letter-spacing: -0.015em;
+  --text-lead: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);
+  --text-lead--line-height: 1.6;
+
+  /* Radii */
+  --radius-control: 6px;
+  --radius-card: 12px;
+
+  /* Shadow (used sparingly, on hover/elevated surfaces only) */
+  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.08), 0 8px 24px -12px rgb(0 0 0 / 0.35);
+
+  /* Easing */
+  --ease-soft: cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
-@layer base {
-  :root {
-    --gap: 8px;
-    --duration: 400ms;
-  }
+/* Semantic color tokens → exposed as utilities: bg-bg, bg-surface, bg-subtle,
+   border-line, text-fg, text-muted, text-accent, bg-accent, text-accent-fg */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-subtle: var(--subtle);
+  --color-line: var(--line);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-fg: var(--accent-fg);
+}
 
-  * {
-    font-family: "Inter", "Raleway", system-ui;
-    font-optical-sizing: auto;
-    /* font-style: normal; */
-    smoothing: antialiased;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
+:root {
+  --duration-fast: 150ms;
+  --duration-base: 220ms;
+
+  /* Dark (default) */
+  color-scheme: dark;
+  --bg: #020c1f;
+  --surface: #04122f;
+  --subtle: #03102a;
+  --line: rgb(255 255 255 / 0.1);
+  --fg: #e8edf5;
+  --muted: #9aa6bb; /* ≈7.9:1 on --bg */
+  --accent: #5ce0e6;
+  --accent-hover: #7de6eb;
+  --accent-soft: rgb(92 224 230 / 0.1);
+  --accent-fg: #020c1f;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f6f8fb;
+  --surface: #ffffff;
+  --subtle: #edf1f6;
+  --line: rgb(4 20 52 / 0.12);
+  --fg: #041434;
+  --muted: #4f5b71; /* ≈6.4:1 on --bg */
+  --accent: #2b7276; /* ≈5.2:1 on --bg, 5.6:1 on white */
+  --accent-hover: #235f63;
+  --accent-soft: rgb(43 114 118 / 0.1);
+  --accent-fg: #ffffff;
+}
+
+/* ------------------------------------------------------------------ */
+/* Base                                                                */
+/* ------------------------------------------------------------------ */
+
+@layer base {
   html {
     scroll-behavior: smooth;
-    scroll-padding-block: 80px;
+    scroll-padding-block: 88px;
+    -webkit-text-size-adjust: 100%;
   }
+
   body {
-    /* font-size: 17px; */
-    font-weight: 300;
-    overflow-x: hidden !important;
+    background-color: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-sans);
+    font-weight: 400;
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background-color var(--duration-base) var(--ease-soft),
+      color var(--duration-base) var(--ease-soft);
   }
 
   h1,
@@ -53,61 +134,88 @@
   h4,
   h5,
   h6 {
-    font-family: "Raleway", "Inter", system-ui, -apple-system,
-      BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell,
-      "Open Sans", "Helvetica Neue", sans-serif;
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--fg);
   }
 
   p {
-    /* font-size: 14px; */
-    font-weight: 200;
     letter-spacing: normal;
   }
 
-  .fade-bottom {
-    background: linear-gradient(
-      to bottom red,
-      rgba(255, 255, 255, 0.2)
-    ); /* White background */
+  ::selection {
+    background: var(--accent);
+    color: var(--accent-fg);
   }
 
-  /* HTML: <div class="loader"></div> */
-  .loader {
-    height: 15px;
-    aspect-ratio: 4;
-    --_g: no-repeat radial-gradient(farthest-side, #5ce0e6 90%, #0000);
-    background: var(--_g) left, var(--_g) right;
-    background-size: 25% 100%;
-    display: grid;
-  }
-  .loader:before,
-  .loader:after {
-    content: "";
-    height: inherit;
-    aspect-ratio: 1;
-    grid-area: 1/1;
-    margin: auto;
-    border-radius: 50%;
-    transform-origin: -100% 50%;
-    background: #5ce0e6;
-    animation: l49 1s infinite linear;
-  }
-  .loader:after {
-    transform-origin: 200% 50%;
-    --s: -1;
-    animation-delay: -0.5s;
+  ::placeholder {
+    color: var(--muted);
+    opacity: 0.8;
   }
 
-  @keyframes l49 {
-    58%,
-    100% {
-      transform: rotate(calc(var(--s, 1) * 1turn));
+  /* Visible keyboard focus everywhere */
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
     }
   }
 }
 
-@layer utilities {
+/* ------------------------------------------------------------------ */
+/* Route loading indicator                                             */
+/* ------------------------------------------------------------------ */
+
+.loader {
+  height: 15px;
+  aspect-ratio: 4;
+  --_g: no-repeat radial-gradient(farthest-side, var(--accent) 90%, #0000);
+  background: var(--_g) left, var(--_g) right;
+  background-size: 25% 100%;
+  display: grid;
 }
+.loader:before,
+.loader:after {
+  content: "";
+  height: inherit;
+  aspect-ratio: 1;
+  grid-area: 1/1;
+  margin: auto;
+  border-radius: 50%;
+  transform-origin: -100% 50%;
+  background: var(--accent);
+  animation: l49 1s infinite linear;
+}
+.loader:after {
+  transform-origin: 200% 50%;
+  --s: -1;
+  animation-delay: -0.5s;
+}
+
+@keyframes l49 {
+  58%,
+  100% {
+    transform: rotate(calc(var(--s, 1) * 1turn));
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Legacy marquee (used by the current Skills section only; removed    */
+/* together with that section in the homepage refactor)                */
+/* ------------------------------------------------------------------ */
 
 @keyframes marquee {
   0% {
@@ -133,9 +241,4 @@
 
 .animate-marquee-reverse {
   animation: marquee-reverse linear infinite;
-}
-
-.animate-marquee:hover,
-.animate-marquee-reverse:hover {
-  animation-play-state: paused; /* pause on hover */
 }

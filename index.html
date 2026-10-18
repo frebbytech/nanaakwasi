@@ -8,6 +8,33 @@
     <link rel="icon" type="image/svg+xml" href="/logo.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    <!-- Apply the saved/system theme before first paint (prevents a flash) -->
+    <script>
+      (function () {
+        var theme = "dark";
+        try {
+          var saved = localStorage.getItem("theme");
+          if (saved === "light" || saved === "dark") {
+            theme = saved;
+          } else if (
+            window.matchMedia &&
+            window.matchMedia("(prefers-color-scheme: light)").matches
+          ) {
+            theme = "light";
+          }
+        } catch (e) {}
+        document.documentElement.setAttribute("data-theme", theme);
+      })();
+    </script>
+
+    <!-- Fonts: only the weights the design uses -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Raleway:wght@600;700&display=swap"
+    />
+
     <!-- Primary Meta Tags -->
     <title>Nana Akwasi — Let's build your app together!</title>
     <meta name="title" content="Nana Akwasi — Let's build your app together!" />
@@ -93,7 +120,6 @@
     <meta name="msapplication-TileColor" content="#020c1f" />
     <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
     <meta name="theme-color" content="#020c1f" />
-    <title>Nana Akwasi</title>
   </head>
   <body>
     <div id="root"></div>
