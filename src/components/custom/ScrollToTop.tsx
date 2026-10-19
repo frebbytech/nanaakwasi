@@ -1,49 +1,30 @@
-import { cn } from "@/utils/cn";
-import { ArrowUp } from "lucide-react";
 import { useEffect, useState } from "react";
+import { ArrowUp } from "lucide-react";
+import { cn } from "@/utils/cn";
 
+/** Real button, removed from the tab order and hidden until the page has scrolled. */
 function ScrollToTop() {
-  // const [scrolling, setScrolling] = useState(false);
-  const [scrollPosition, setScrollPosition] = useState(0);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    // let timeout: number;
-
-    const handleScroll = () => {
-      // setScrolling(true);
-      setScrollPosition(window.scrollY);
-
-      // clearTimeout(timeout);
-      // setTimeout(() => {
-      //   // setScrolling(false);
-      // }, 200); // Time after the scroll stops
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      // clearTimeout(timeout);
-    };
+    const onScroll = () => setVisible(window.scrollY > 600);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const handleScrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth", // Optional: animated scroll
-    });
-  };
-
   return (
-    <div
-      onClick={handleScrollToTop}
+    <button
+      type="button"
+      aria-label="Back to top"
+      hidden={!visible}
+      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
       className={cn(
-        "fixed bottom-10 right-10 p-2 z-9999 bg-primary-500 rounded-full transition-all duration-700 ease-in-out cursor-pointer",
-        scrollPosition < 600 && "opacity-0",
-        // scrolling && "hidden"
+        "fixed bottom-6 right-4 z-40 inline-flex size-11 items-center justify-center rounded-control border border-line bg-surface text-fg shadow-card transition-colors hover:border-accent hover:text-accent sm:right-6"
       )}
     >
-      <ArrowUp className="text-secondary-500 size-5" />
-    </div>
+      <ArrowUp className="size-5" aria-hidden="true" />
+    </button>
   );
 }
 

@@ -1,29 +1,22 @@
 import Hero from "@/components/home/Hero";
-import About from "../about/about";
-import Service from "../service";
-import Skills from "../skills";
-import Resume from "../resume";
-import Contact from "../contact";
-import Portfolio from "../portfolio";
-import BottomFade from "@/components/bottom-fade";
-import Review from "@/components/Review";
+import FeaturedProjects from "@/components/home/FeaturedProjects";
+import Services from "@/components/home/Services";
+import Expertise from "@/components/home/Expertise";
+import About from "@/components/home/About";
+import Testimonials from "@/components/home/Testimonials";
+import Contact from "@/components/home/Contact";
 
 function Home() {
   return (
-    <div className="overflow-hidden">
+    <>
       <Hero />
-
-      <div className=" bg-(--color-secondary-500) relative ">
-        <About />
-        <Service />
-        <Skills />
-        <Resume />
-        <Portfolio />
-        <Review />
-        <Contact />
-      </div>
-      <BottomFade />
-    </div>
+      <FeaturedProjects />
+      <Services />
+      <Expertise />
+      <About />
+      <Testimonials />
+      <Contact />
+    </>
   );
 }
 
