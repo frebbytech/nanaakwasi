@@ -7,34 +7,48 @@ import { navItems, site } from "@/data/site";
 import { ButtonLink } from "@/components/ui/Button";
 import Container from "@/components/ui/Container";
 import ThemeToggle from "@/components/ui/ThemeToggle";
+import {
+  SECTION_TITLES,
+  useCurrentSection,
+  type CurrentSection,
+} from "./use-current-section";
 
-/** Highlights the nav item for the home-page section currently in view. */
-function useActiveSection(enabled: boolean) {
-  const [active, setActive] = useState<string>("");
+const titleVariants = {
+  enter: (dir: number) => ({ opacity: 0, y: dir * 10 }),
+  center: { opacity: 1, y: 0 },
+  exit: (dir: number) => ({ opacity: 0, y: dir * -10 }),
+};
 
-  useEffect(() => {
-    if (!enabled) {
-      setActive("");
-      return;
-    }
-    const sections = navItems
-      .map((item) => document.getElementById(item.hash))
-      .filter((el): el is HTMLElement => el !== null);
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) setActive(entry.target.id);
-        }
-      },
-      // A section counts as "current" while it crosses the upper-middle of the viewport.
-      { rootMargin: "-35% 0px -60% 0px" }
-    );
-    sections.forEach((s) => observer.observe(s));
-    return () => observer.disconnect();
-  }, [enabled]);
-
-  return active;
+/**
+ * The brand link. On the home page its text becomes the name of the section
+ * being read; it slides up when scrolling down and down when scrolling up.
+ * The accessible name stays constant ("Nana Akwasi, home").
+ */
+function BrandTitle({ current }: { current: CurrentSection }) {
+  const label = current.id ? SECTION_TITLES[current.id] : site.name;
+  return (
+    <Link
+      to="/"
+      aria-label={`${site.name}, home`}
+      className="relative inline-flex h-8 items-center overflow-hidden rounded-control font-display text-lg font-bold tracking-tight text-fg"
+    >
+      <AnimatePresence mode="wait" initial={false} custom={current.direction}>
+        <m.span
+          key={label}
+          custom={current.direction}
+          variants={titleVariants}
+          initial="enter"
+          animate="center"
+          exit="exit"
+          transition={{ duration: 0.2, ease: [0.22, 0.61, 0.36, 1] }}
+          aria-hidden="true"
+          className="block whitespace-nowrap"
+        >
+          {label}
+        </m.span>
+      </AnimatePresence>
+    </Link>
+  );
 }
 
 const linkClass = (current: boolean) =>
@@ -48,7 +62,8 @@ function Header() {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const { pathname, hash } = useLocation();
   const isHome = pathname === "/";
-  const active = useActiveSection(isHome);
+  const current = useCurrentSection(isHome);
+  const active = current.id;
 
   // Close the menu after any navigation.
   useEffect(() => {
@@ -78,13 +93,7 @@ function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-line bg-bg">
       <Container className="relative flex h-16 items-center justify-between gap-4">
-        <Link
-          to="/"
-          className="rounded-control font-display text-lg font-bold tracking-tight text-fg"
-          aria-label={`${site.name}, home`}
-        >
-          {site.name}
-        </Link>
+        <BrandTitle current={current} />
 
         <nav aria-label="Primary" className="hidden lg:block">
           <ul className="flex items-center gap-1">
