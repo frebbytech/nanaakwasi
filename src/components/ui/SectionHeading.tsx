@@ -1,4 +1,5 @@
 import { cn } from "@/utils/cn";
+import Reveal from "./Reveal";
 
 type SectionHeadingProps = {
   /** Small label above the title, e.g. "Selected work" */
@@ -19,7 +20,7 @@ function SectionHeading({
   className,
 }: SectionHeadingProps) {
   return (
-    <div className={cn("max-w-2xl", className)}>
+    <Reveal className={cn("max-w-2xl", className)}>
       {eyebrow && (
         <p className="mb-3 text-sm font-semibold uppercase tracking-[0.14em] text-accent">
           {eyebrow}
@@ -31,7 +32,7 @@ function SectionHeading({
       {description && (
         <p className="mt-4 text-lead text-muted">{description}</p>
       )}
-    </div>
+    </Reveal>
   );
 }
 

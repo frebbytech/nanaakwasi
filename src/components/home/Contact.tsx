@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import emailjs from "@emailjs/browser";
 import { Mail, MapPin, Phone } from "lucide-react";
 import Section from "@/components/ui/Section";
+import Reveal from "@/components/ui/Reveal";
 import SectionHeading from "@/components/ui/SectionHeading";
 import SocialLinks from "@/components/ui/SocialLinks";
 import { Button } from "@/components/ui/Button";
@@ -232,7 +233,7 @@ function Contact() {
           </form>
         </div>
 
-        <div>
+        <Reveal delay={0.1}>
           <h3 className="text-sm font-semibold uppercase tracking-[0.12em] text-accent">
             Contact details
           </h3>
@@ -289,7 +290,7 @@ function Contact() {
             <p className="mb-3 text-sm text-muted">Find me online</p>
             <SocialLinks />
           </div>
-        </div>
+        </Reveal>
       </div>
     </Section>
   );

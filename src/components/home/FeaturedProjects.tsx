@@ -2,6 +2,7 @@ import Section from "@/components/ui/Section";
 import SectionHeading from "@/components/ui/SectionHeading";
 import ProjectMedia from "@/components/ui/ProjectMedia";
 import ProjectLinks from "@/components/ui/ProjectLinks";
+import Reveal from "@/components/ui/Reveal";
 import Tag from "@/components/ui/Tag";
 import { ButtonLink } from "@/components/ui/Button";
 import { allProjects, professionalProjects } from "@/data/projects";
@@ -31,7 +32,7 @@ function FeaturedProjects() {
         description="Systems for schools, businesses, healthcare and payments, from first requirements to deployment."
       />
 
-      <article className="mt-12 grid items-center gap-8 lg:grid-cols-2 lg:gap-14">
+      <Reveal as="article" className="group mt-12 grid items-center gap-8 lg:grid-cols-2 lg:gap-14">
         <ProjectMedia
           title={featured.title}
           category={featured.category}
@@ -55,19 +56,20 @@ function FeaturedProjects() {
           </ul>
           <ProjectLinks project={featured} className="mt-4" />
         </div>
-      </article>
+      </Reveal>
 
       <ul className="mt-14 border-t border-line">
         {rows.map((p) => (
-          <li
+          <Reveal
+            as="li"
             key={p.id}
-            className="grid gap-4 border-b border-line py-8 lg:grid-cols-[1fr_1.6fr] lg:gap-12"
+            className="group grid gap-4 border-b border-line py-8 lg:grid-cols-[1fr_1.6fr] lg:gap-12"
           >
             <div>
               <p className="text-xs font-medium uppercase tracking-[0.14em] text-accent">
                 {p.category}
               </p>
-              <h3 className="mt-1 font-display text-xl font-bold text-fg">
+              <h3 className="mt-1 font-display text-xl font-bold text-fg transition-colors duration-200 group-hover:text-accent">
                 {p.title}
               </h3>
             </div>
@@ -82,7 +84,7 @@ function FeaturedProjects() {
               </ul>
               <ProjectLinks project={p} className="mt-2" />
             </div>
-          </li>
+          </Reveal>
         ))}
       </ul>
 

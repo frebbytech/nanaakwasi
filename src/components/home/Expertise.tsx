@@ -1,4 +1,5 @@
 import Section from "@/components/ui/Section";
+import Reveal from "@/components/ui/Reveal";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { expertise } from "@/data/site";
 
@@ -12,8 +13,8 @@ function Expertise() {
         description="Technologies used across the projects and roles listed on this site."
       />
       <dl className="mt-12 grid gap-x-10 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
-        {expertise.map((group) => (
-          <div key={group.title} className="border-t border-line pt-5">
+        {expertise.map((group, i) => (
+          <Reveal key={group.title} delay={i * 0.07} className="border-t border-line pt-5">
             <dt className="text-sm font-semibold uppercase tracking-[0.12em] text-accent">
               {group.title}
             </dt>
@@ -24,7 +25,7 @@ function Expertise() {
                 ))}
               </ul>
             </dd>
-          </div>
+          </Reveal>
         ))}
       </dl>
     </Section>

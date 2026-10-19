@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
+import { AnimatePresence, m } from "framer-motion";
 import { cn } from "@/utils/cn";
 import { navItems, site } from "@/data/site";
 import { ButtonLink } from "@/components/ui/Button";
@@ -124,8 +125,13 @@ function Header() {
         </div>
       </Container>
 
+      <AnimatePresence>
       {open && (
-        <nav
+        <m.nav
+          initial={{ opacity: 0, y: -8 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -8 }}
+          transition={{ duration: 0.18 }}
           id="mobile-menu"
           aria-label="Mobile"
           className="absolute inset-x-0 top-full max-h-[calc(100dvh-4rem)] overflow-y-auto border-b border-line bg-bg lg:hidden"
@@ -150,8 +156,9 @@ function Header() {
               Start a project
             </ButtonLink>
           </Container>
-        </nav>
+        </m.nav>
       )}
+      </AnimatePresence>
     </header>
   );
 }

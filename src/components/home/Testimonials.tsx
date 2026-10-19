@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { AnimatePresence, m } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Section from "@/components/ui/Section";
 import SectionHeading from "@/components/ui/SectionHeading";
@@ -52,7 +53,15 @@ function Testimonials() {
         title="What clients and colleagues say"
       />
 
-      <figure className="mt-12 max-w-3xl" aria-live="polite">
+      <div className="mt-12 max-w-3xl" aria-live="polite">
+      <AnimatePresence mode="wait" initial={false}>
+      <m.figure
+        key={current.id}
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -6 }}
+        transition={{ duration: 0.25 }}
+      >
         <blockquote className="font-display text-xl font-semibold leading-relaxed text-fg md:text-2xl">
           “{current.quote}”
         </blockquote>
@@ -63,7 +72,9 @@ function Testimonials() {
             <p className="text-sm text-muted">{current.role}</p>
           </div>
         </figcaption>
-      </figure>
+      </m.figure>
+      </AnimatePresence>
+      </div>
 
       <div className="mt-10 flex items-center gap-3">
         <button

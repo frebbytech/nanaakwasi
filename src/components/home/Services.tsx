@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import Section from "@/components/ui/Section";
+import Reveal from "@/components/ui/Reveal";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { services } from "@/data/site";
 
@@ -16,7 +17,8 @@ function Services() {
         />
         <ul className="border-t border-line">
           {services.map((s) => (
-            <li
+            <Reveal
+              as="li"
               key={s.id}
               className="flex flex-col gap-3 border-b border-line py-7 sm:flex-row sm:items-start sm:justify-between sm:gap-8"
             >
@@ -33,7 +35,7 @@ function Services() {
                 <span className="sr-only"> about {s.title}</span>
                 <ArrowRight className="size-4" aria-hidden="true" />
               </Link>
-            </li>
+            </Reveal>
           ))}
         </ul>
       </div>

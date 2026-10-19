@@ -42,7 +42,7 @@ function ProjectMedia({
           loading={priority ? "eager" : "lazy"}
           decoding="async"
           onError={() => setFailed(true)}
-          className="size-full object-cover object-top"
+          className="size-full object-cover object-top transition-transform duration-500 ease-(--ease-soft) motion-safe:group-hover:scale-[1.03]"
         />
       ) : (
         <div

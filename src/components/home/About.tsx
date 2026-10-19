@@ -1,5 +1,6 @@
 import { Download } from "lucide-react";
 import Section from "@/components/ui/Section";
+import Reveal from "@/components/ui/Reveal";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { ButtonLink } from "@/components/ui/Button";
 import { education, experience, site } from "@/data/site";
@@ -34,7 +35,7 @@ function About() {
             </h3>
             <ol className="mt-4 border-t border-line">
               {experience.map((job) => (
-                <li key={job.title + job.place} className="border-b border-line py-6">
+                <Reveal as="li" key={job.title + job.place} className="border-b border-line py-6">
                   <div className="flex flex-col gap-1 sm:flex-row sm:justify-between sm:gap-6">
                     <h4 className="font-display text-lg font-bold text-fg">{job.title}</h4>
                     <p className="text-sm text-muted">{job.period}</p>
@@ -45,7 +46,7 @@ function About() {
                       <li key={pt}>{pt}</li>
                     ))}
                   </ul>
-                </li>
+                </Reveal>
               ))}
             </ol>
           </div>
@@ -56,7 +57,7 @@ function About() {
             </h3>
             <ul className="mt-4 border-t border-line">
               {education.map((ed) => (
-                <li key={ed.title} className="border-b border-line py-6">
+                <Reveal as="li" key={ed.title} className="border-b border-line py-6">
                   <div className="flex flex-col gap-1 sm:flex-row sm:justify-between sm:gap-6">
                     <h4 className="font-display text-lg font-bold text-fg">{ed.title}</h4>
                     <p className="text-sm text-muted">{ed.period}</p>
@@ -65,7 +66,7 @@ function About() {
                     {ed.place}
                     {ed.note ? ` · ${ed.note}` : ""}
                   </p>
-                </li>
+                </Reveal>
               ))}
             </ul>
           </div>

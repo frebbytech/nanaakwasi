@@ -1,12 +1,13 @@
 import type { Project } from "@/data/projects";
 import ProjectMedia from "@/components/ui/ProjectMedia";
 import ProjectLinks from "@/components/ui/ProjectLinks";
+import Reveal from "@/components/ui/Reveal";
 import Tag from "@/components/ui/Tag";
 
 /** Full project entry: media, category, description, stack and real links. */
 function ProjectEntry({ project }: { project: Project }) {
   return (
-    <article className="flex flex-col">
+    <Reveal as="article" className="group flex flex-col">
       <ProjectMedia
         title={project.title}
         category={project.category}
@@ -26,7 +27,7 @@ function ProjectEntry({ project }: { project: Project }) {
         ))}
       </ul>
       <ProjectLinks project={project} className="mt-2" />
-    </article>
+    </Reveal>
   );
 }
 
