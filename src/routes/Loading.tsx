@@ -1,9 +1,11 @@
-
-
 function Loading() {
   return (
-    <section className="fixed inset-0 bg-secondary-900 flex items-center justify-center">
-      <div className="loader"></div>
+    <section
+      role="status"
+      aria-label="Loading"
+      className="fixed inset-0 flex items-center justify-center bg-bg"
+    >
+      <div className="loader" />
     </section>
   );
 }

@@ -1,10 +1,12 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./routes/home";
-import Error from "./routes/Error";
+import ErrorPage from "./routes/Error";
 import NotFound from "./routes/NotFound";
 import { lazy, Suspense } from "react";
 import Loading from "./routes/Loading";
 import MorePortfolio from "./routes/portfolio/more";
+import Blog from "./routes/blog";
+import BlogPost from "./routes/blog/more";
 const Root = lazy(() => import("./routes"));
 
 /**
@@ -25,7 +27,7 @@ function App() {
           <Root />
         </Suspense>
       ),
-      errorElement: <Error />,
+      errorElement: <ErrorPage />,
       children: [
         {
           index: true,
@@ -35,12 +37,19 @@ function App() {
           path: "/portfolio",
           element: <MorePortfolio />,
         },
+        {
+          path: "/blog",
+          element: <Blog />,
+        },
+        {
+          path: "/blog/:slug",
+          element: <BlogPost />,
+        },
+        {
+          path: "*",
+          element: <NotFound />,
+        },
       ],
-    },
-
-    {
-      path: "*",
-      element: <NotFound />,
     },
   ]);
 

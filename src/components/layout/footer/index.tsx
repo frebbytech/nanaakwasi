@@ -35,6 +35,14 @@ function Footer() {
                 All projects
               </Link>
             </li>
+            <li>
+              <Link
+                to="/blog"
+                className="inline-flex min-h-9 items-center text-sm text-muted hover:text-accent"
+              >
+                Blog
+              </Link>
+            </li>
           </ul>
         </nav>
         <div>
